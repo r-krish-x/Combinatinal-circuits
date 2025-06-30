@@ -1,1 +1,2 @@
 # Combinatinal-circuits
+verilog codes
