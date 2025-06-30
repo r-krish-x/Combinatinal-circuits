@@ -1,0 +1,57 @@
+///////////////////design////////////////////////
+
+// Code your design here
+module encoder_8x3(i,en,y);
+  input[7:0]i;
+  input en;
+  output reg[2:0]y;
+  integer k;
+  
+  always@(*)begin
+    y=3'b000;
+    if(en)begin
+      for(k=0;k<8;k=k+1)begin
+        if(i[k]==1)
+          y=k;
+      end
+    end
+    end
+endmodule
+
+
+/////////////testbench/////////////////////////////
+
+// Code your testbench here
+// or browse Examples
+module tb_encoder_8x3;
+  reg [7:0]i;
+  reg en;
+  wire[2:0]y;
+  integer k;
+  
+  encoder_8x3 dut(.i(i),.en(en),.y(y));
+  
+  initial begin
+    en=0;
+    i=8'b0000_0000;
+    
+    $monitor("time=%0t i=%b  en=%b  y=%b",$time,i,en,y);
+    
+    #5 en=1;
+    for(k=0;k<8;k=k+1)begin
+      i[k]=1;
+      #5;
+    end
+    
+    #5 en=0;
+    i=8'b0000_0000;
+    
+  #5;
+  $finish;
+  end
+  
+  initial begin
+    $dumpfile("dump.vcd");
+    $dumpvars(0,tb_encoder_8x3);
+  end
+endmodule
