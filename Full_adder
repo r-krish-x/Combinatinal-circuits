@@ -1,4 +1,4 @@
-Design
+///////////////////Design/////////////////////
 
 // Code your design here
 // dataflow
@@ -46,7 +46,7 @@ module full_adder(s,c,a,b,cin);
 endmodule
 */
 
-Testbench
+////////////////////Testbench//////////////////////////
 
 // Code your testbench here
 // or browse Examples
