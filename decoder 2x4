@@ -1,3 +1,5 @@
+////////////////////////////Design///////////////////////////////////
+
 module decoder_2x4(i,en,y);
   input [1:0]i;
   input en;
@@ -57,7 +59,8 @@ module decoder_2x4(input[1:0]i,
 endmodule
 
 */
-    Testbench
+
+ /////////////////////////////////////Testbench///////////////////////////////////
 
     // Code your testbench here
 // or browse Examples
