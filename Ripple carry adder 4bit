@@ -1,0 +1,74 @@
+Design 
+
+
+module full_adder1(a,b,cin,s,c);
+  input a,b,cin;
+  output reg s,c;
+  
+  always@(*)begin
+    s=a^b^cin;
+    c=a&b|b&cin|a&cin;
+  end
+endmodule
+
+module full_adder(a,b,cin,s,c);
+  input[3:0]a,b;
+  input cin;
+  output[3:0]s;
+  output c;
+  wire n1,n2,n3;
+  
+  full_adder1 fa1(.a(a[0]),.b(b[0]),.cin(cin),.s(s[0]),.c(n1));
+  full_adder1 fa2(.a(a[1]),.b(b[1]),.cin(n1),.s(s[1]),.c(n2));
+  full_adder1 fa3(.a(a[2]),.b(b[2]),.cin(n2),.s(s[2]),.c(n3));
+  full_adder1 fa4(.a(a[3]),.b(b[3]),.cin(n3),.s(s[3]),.c(c));
+  
+endmodule
+
+Testbench
+
+// Code your testbench here
+// or browse Examples
+module full_adder_tb;
+  reg[3:0]a,b;
+  reg cin;
+  wire[3:0]s;
+  wire c;
+  integer i;
+  
+  full_adder DUT(.a(a),.b(b),.cin(cin),.s(s),.c(c));
+  
+
+  initial begin
+    $display("Time \t a \t b \t cin \t s \t c");
+    $display("------------------------------------------------");
+    
+    $monitor("%0t \t %b \t %b \t %b \t %b \t %b", $time,a,b,cin,s,c);
+    
+    a=4'b0000; b=4'b0000; cin=0; #5;
+    a=4'b0000; b=4'b1111; cin=0; #5;
+    a=4'b1111; b=4'b1111; cin=1; #5;
+    a=4'b0011; b=4'b1110; cin=0; #5;
+    
+    for(i=0; i<20;i=i+1)begin
+      a=$urandom %16;
+      b=$urandom %16;
+      cin=$urandom %2;
+      #5;
+    end
+    #5;
+    $finish;
+  end
+  
+  initial begin
+    $dumpfile("dump.vcd");
+    $dumpvars(0,full_adder_tb);
+  end
+ 
+endmodule
+
+/*for (i = 0; i < 512; i = i + 1) begin
+    {a, b, cin} = i;
+    #5;
+end*/ 
+// we can use this instead of line 19 to 29. all the cases will cover no room for uncovered testcases
