@@ -1,0 +1,58 @@
+///////////////////////design//////////////////////////////
+
+module encoder_4x2 (
+    input [3:0] i,
+    input en,
+    output reg [1:0] y
+);
+    integer k;
+    always @(*) begin
+        y = 2'b00; 
+        if (en) begin
+            for (k = 0; k < 4; k = k + 1) begin
+                if (i[k] == 1) begin
+                    y = k; 
+                end
+            end
+        end
+    end
+endmodule
+
+
+//////////////////////////Testbench////////////////////////////
+
+module tb_encoder_4x2;
+  reg[3:0]i;
+  reg en;
+  wire [1:0]y;
+  integer k;
+  
+  encoder_4x2 dut(.i(i),.en(en),.y(y));
+  
+  initial begin
+    en=0;
+    i=4'b0000;
+    
+    $monitor("time=%0t  i=%b en=%b  y=%b",$time,i,en,y);
+    
+    #5 en=1;
+    for(k=0;k<16;k=k+1)begin
+      i[k]=1;
+      #5;
+    end
+    
+    #5 en=0;
+    i=4'b0000;
+    
+    #5;
+    $finish;
+    
+  end
+  
+  initial begin
+    $dumpfile("dump.vcd");
+    $dumpvars(0,tb_encoder_4x2);
+  end
+  
+endmodule
+  
